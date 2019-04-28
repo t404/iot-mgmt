@@ -1,0 +1,144 @@
+basePath: /api/v1
+definitions:
+  models.User:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  services.CreateUserRequest:
+    properties:
+      name:
+        description: 用户名称
+        type: string
+    required:
+    - name
+    type: object
+  services.DeleteUserRequest:
+    properties:
+      id:
+        description: 要删除的用户 Id 列表
+        items:
+          type: string
+        type: array
+    required:
+    - id
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a iot management server API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: iot management API
+  version: "1.0"
+paths:
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 查询用户
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      security:
+      - Bearer: []
+      summary: 获取当前用户信息
+      tags:
+      - 用户
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新数据
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      summary: 更新
+      tags:
+      - 用户
+  /users:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 删除数据
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/services.DeleteUserRequest'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      summary: 删除
+      tags:
+      - 用户
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      summary: 查询用户列表
+      tags:
+      - 用户
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 创建数据
+        in: body
+        name: name
+        required: true
+        schema:
+          $ref: '#/definitions/services.CreateUserRequest'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+            type: object
+      summary: 创建
+      tags:
+      - 用户
+swagger: "2.0"
